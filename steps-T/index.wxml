@@ -1,0 +1,21 @@
+<view class="custom-class van-steps van-steps--{{ direction }}">
+  <view class="van-step__wrapper">
+    <view wx:for="{{ steps }}" wx:key="index" class="van-step van-hairline van-step--{{ direction }} {{ item.status ? 'van-step--' + item.status : '' }}" style="{{ width ? 'width:' + width + 'px' : '' }}">
+      <view class="van-step__title" style="{{ item.status === 'process' ? 'color: ' + activeColor : '' }}">
+        <view style='margin-bottom:10rpx' class='dateFont'>{{ item.text + "----(" + item.intro + ")" }}</view>
+        <view class="{{ item.isEditStatus? 'ivewTextArea_T' : null }}">
+            <van-field readonly="{{ !item.isEditStatus }}" custom-class="stepsDesc_T" value="{{ item.desc }}" type="textarea" placeholder="请输入备注信息..." border="{{ true }}" autosize/>
+        </view>
+      </view>
+      <view class="van-step__circle-container">
+        <view class="van-step__circle" wx:if="{{ item.status !== 'process' }}" style="{{ item.status === 'finish' ? 'background-color: ' + activeColor : '' }}" />
+        <van-icon wx:else name="checked" color="{{ activeColor }}" custom-class="van-step__active" />
+      </view>
+      <view class='stepsBtn_T'>
+        <van-button size='small' data-index="{{ index }}" data-name="修改" wx:if="{{ !item.isEditStatus }}" bind:click="handleEditStatus" plain  type="primary">修改</van-button>
+        <van-button size='small' data-index="{{ index }}" data-name="保存" plain wx:if="{{ item.isEditStatus }}" bind:click="handleEditStatus" type="danger">保存</van-button>
+      </view>
+      <view wx:if="{{ index !== steps.length - 1 }}" class="van-step__line" style="{{ item.status === 'finish' ? 'background-color: ' + activeColor : '' }}" />
+    </view>
+  </view>
+</view>

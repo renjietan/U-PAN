@@ -1,0 +1,14 @@
+<view class='container'>
+  <van-tabs active="{{ active }}" bind:change="onChange">
+    <van-tab type="card" title="全部">
+      <view class='vantStepsView_T'>
+        <van-steps bind:submit="handleEditStatus" custom-class="vantSteps_T" steps="{{ steps }}" direction="vertical" />
+      </view>
+    </van-tab>
+    <van-tab type="card" title="饲料">
+    </van-tab>
+    <van-tab type="card" title="苗种">内容 3</van-tab>
+    <van-tab type="card" title="药品">内容 4</van-tab>
+    <van-tab type="card" title="操作">内容 4</van-tab>
+  </van-tabs>
+</view>
