@@ -12,51 +12,29 @@
             return new Date(b.operation_time).getTime() - new Date(a.operation_time).getTime()
         })
         let types = new Set();
-        for (let i in res) {
-            types.add(res[i].operation_time + "&&" + res[i].sname + "&&" + res[i].foId)
+        for (let item of res) {
+            types.add(item.operation_time + "&&" + item.sname + "&&" + item.foId)
         }
-
         let obj = {};
         let arrList = [];
         // 根据type生成多个数组
-        for (let k of types) {
-            for (let j of res) {
-                if (j.operation_time == k.split("&&")[0] && j.sname == k.split("&&")[1] && j.foId == k.split("&&")[2]) {
-                    obj[k] = obj[k] || [];
-                    obj[k].push(j)
+        for (let type of types) {
+            for (let item of res) {
+                if (item.operation_time == type.split("&&")[0] && item.sname == type.split("&&")[1] && item.foId == type.split("&&")[2]) {
+                    obj[type] = obj[type] || [];
+                    obj[type].push(item)
                 }
             }
         }
-        for (let i in obj) {
-            arrList.push(obj[i])
-        }
-        console.log(arrList)
-        console.log(obj)
+        arrList = Object.values(obj)
+        arrList.map(item => {
+                let temp = {};
+                item.forEach(item => {
+                    debugger
+                })
 
-        function parserArray(arr, keyList) {
-            let map = {},
-                dest = [];
-            let keyName = keyList[0]
-            let keyTime = keyList[1]
-            for (let i of arr) {
-                if (!map[i[keyName]] && !map[i[keyTime]]) {
-                    dest.push({
-                        [keyTime]: i[keyTime],
-                        [keyName]: i[keyName],
-                        data: [i]
-                    });
-                    map[i[keyName]] = i;
-                } else {
-                    for (let j of dest) {
-                        if (j[keyName] == i[keyName] && j[keyTime] == i[keyTime]) {
-                            j.data.push(i);
-                            break;
-                        }
-                    }
-                }
-            }
-            return dest
-        }
+            })
+            // console.log(obj)
 
         function parser(arr, key) {
             let map = {},
@@ -69,9 +47,9 @@
                     });
                     map[i[key]] = i;
                 } else {
-                    for (let j of dest) {
-                        if (j[key] == i[key]) {
-                            j.data.push(i);
+                    for (let item of dest) {
+                        if (item[key] == i[key]) {
+                            item.data.push(i);
                             break;
                         }
                     }
