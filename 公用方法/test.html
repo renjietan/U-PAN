@@ -7,60 +7,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="./network.js"></script>
     <script>
-      let res = dataRes.data.sort((a, b) => {
-        return (
-          new Date(b.operation_time).getTime() -
-          new Date(a.operation_time).getTime()
-        );
-      });
-      let types = new Set();
-      for (let item of res) {
-        // types.add(item.operation_time + "&&" + item.sname + "&&" + item.foId)
-        types.add(item.foId);
-      }
-      let obj = {};
-      let arrList = [];
-      // 根据type生成多个数组
-      for (let type of types) {
-        for (let item of res) {
-          // if (item.operation_time == type.split("&&")[0] && item.sname == type.split("&&")[1] && item.foId == type.split("&&")[2]) {
-          if (
-            item.foId == type
-          ) {
-            obj[type] = obj[type] || [];
-            obj[type].push(item);
-          }
-        }
-      }
-      arrList = Object.values(obj);
-      // arrList.map(item => {
-      //   let temp = {};
-      //   item.forEach(item => {});
+      // let res = dataRes.data.sort((a, b) => {
+      //   return (
+      //     new Date(b.operation_time).getTime() -
+      //     new Date(a.operation_time).getTime()
+      //   );
       // });
-      console.log(obj);
-      console.log(arrList);
-
-      function parser(arr, key) {
-        let map = {},
-          dest = [];
-        for (let i of arr) {
-          if (!map[i[key]]) {
-            dest.push({
-              [key]: i[key],
-              data: [i]
-            });
-            map[i[key]] = i;
-          } else {
-            for (let item of dest) {
-              if (item[key] == i[key]) {
-                item.data.push(i);
-                break;
-              }
-            }
-          }
+      // let types = new Set();
+      // for (let item of res) {
+      //   // types.add(item.operation_time + "&&" + item.sname + "&&" + item.foId)
+      //   types.add(item.foId);
+      // }
+      // let obj = {};
+      // let arrList = [];
+      // // 根据type生成多个数组
+      // for (let type of types) {
+      //   for (let item of res) {
+      //     // if (item.operation_time == type.split("&&")[0] && item.sname == type.split("&&")[1] && item.foId == type.split("&&")[2]) {
+      //     if (item.foId == type) {
+      //       obj[type] = obj[type] || [];
+      //       obj[type].push(item);
+      //     }
+      //   }
+      // }
+      // arrList = Object.values(obj);
+      // // arrList.map(item => {
+      // //   let temp = {};
+      // //   item.forEach(item => {});
+      // // });
+      // console.log(obj);
+      // console.log(arrList);
+      let date = new Date(new Date().getTime()).getFullYear();
+      function test(param) {
+        let dateList = []
+        for (let i = 1; i < 20; i++) {
+          i < 11 ? dateList.unshift(date - i) : dateList.push(date + i - 11) + "年"
         }
-        return dest;
+        return dateList
       }
+      
+      console.log(test(date));
     </script>
   </head>
 

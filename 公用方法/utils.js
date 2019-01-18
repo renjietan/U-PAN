@@ -30,7 +30,25 @@ export function parserTree(list, id_Key, parent_Key) {
     }
     return root.children
   }
-  //数组对象分组
+
+  //生成斐波那契数组
+  export function fibonacciUntilNum(num){
+    let n = Math.ceil(
+      Math.log(num * Math.sqrt(5) + 1 / 2) /
+        Math.log((Math.sqrt(5) + 1) / 2)
+    );
+    debugger
+    return Array.from({ length: n }).reduce(
+      (acc, val, i) => {
+        debugger
+        return acc.concat(i > 1 ? acc[i - 1] + acc[i - 2] : i)
+      },
+      []
+    );
+  };
+
+
+  //将数组中 具有相同键、值的对象 分组
   //参数：数组、键
   export function parserKey(arr, key) {
     let map = {},
@@ -78,7 +96,7 @@ export function parserTree(list, id_Key, parent_Key) {
     return result
   }
 
-//时间转换 参数：时间戳
+//时间转换 参数：时间戳(2019-07-08)
   const convertDate = function (date) {
     let dateObject = new Date(date);
     let m = dateObject.getMonth() + 1;
@@ -93,6 +111,8 @@ export function parserTree(list, id_Key, parent_Key) {
       m + "-" + d
     return parseDate
   };
+
+
   // 格式化时间 
   //参数：时间戳（对象），需要转换的时间格式 例如 "yyyy-MM-dd hh:mm:ss"
   export function parseTime(time, cFormat) {
