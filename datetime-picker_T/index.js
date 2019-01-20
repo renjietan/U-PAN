@@ -122,7 +122,6 @@ VantComponent({
   watch: {
     value: function value(val) {
       var _this = this;
-
       var data = this.data;
       val = this.correctValue(val);
       var isEqual = val === data.innerValue;
@@ -388,7 +387,6 @@ VantComponent({
     var _this3 = this;
 
     var innerValue = this.correctValue(this.data.value);
-
     this.set({
       innerValue: innerValue
     }, function() {
