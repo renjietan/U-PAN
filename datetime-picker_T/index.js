@@ -10,8 +10,6 @@ function isValidDate(date) {
   return isDef(date) && !isNaN(new Date(date).getTime());
 }
 
-;
-
 function range(num, min, max) {
   return Math.min(Math.max(num, min), max);
 }
@@ -107,11 +105,12 @@ VantComponent({
     columns: function columns() {
       let that = this
       var results = this.getRanges().map(function(_ref) {
+        /////////////
         var type = _ref.type,
           range = _ref.range;
         var values = times(range[1] - range[0] + 1, function(index) {
           var value = range[0] + index;
-          value = type === 'year' ? "" + value : padZero(value);
+          value = type === 'year' ? "" + value + "年" : padZero(value);
           return value;
         });
         return values;
@@ -139,6 +138,7 @@ VantComponent({
     }
   },
   methods: {
+    //获取边界值
     getRanges: function getRanges() {
       var data = this.data;
 
@@ -187,6 +187,7 @@ VantComponent({
       if (data.type === 'year') result.splice(1, 4);
       return result;
     },
+    //转化date值
     correctValue: function correctValue(value) {
       var data = this.data; // validate value
 
@@ -232,7 +233,6 @@ VantComponent({
 
       if (value.getFullYear() === year) {
         month = boundary.getMonth() + 1;
-
         if (value.getMonth() + 1 === month) {
           date = boundary.getDate();
 
@@ -364,7 +364,8 @@ VantComponent({
             values.push(columns[2].indexOf(padZero(date.getDate())), columns[3].indexOf(padZero(date.getHours())), columns[4].indexOf(padZero(date.getMinutes())));
             break;
           case "year":
-            values = [columns[0].indexOf("" + date.getFullYear())];
+          ///////////////
+            values = [columns[0].indexOf(date.getFullYear() + "年")];
             break;
             default:
             values = [columns[0].indexOf("" + date.getFullYear()), columns[1].indexOf(padZero(date.getMonth() + 1))];
