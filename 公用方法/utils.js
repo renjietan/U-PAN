@@ -4,13 +4,13 @@
  * @returns [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028]
  */
 
-export function produceYearList() {
+const produceYearList = function () {
   let date = new Date(new Date().getTime()).getFullYear();
   return Array.from({
-      length: 20
+    length: 20
   }).reduce((arr, val, i) => {
-      i < 11 ? arr.unshift(date - i) : arr.push(date + i - 10) + "年"
-      return arr
+    i < 11 ? arr.unshift(date - i) : arr.push(date + i - 10) + "年"
+    return arr
   }, [])
 }
 
@@ -22,7 +22,7 @@ export function produceYearList() {
  * @param {* 字符串：父节点的KEY名} parent_Key
  * @returns {* 树状结构}
  */
-export function parserTree(list, id_Key, parent_Key) {
+const parserTree = function (list, id_Key, parent_Key) {
   if (list.length == 0) return list
   let root = null;
   if (list && list.length) {
@@ -60,7 +60,7 @@ export function parserTree(list, id_Key, parent_Key) {
  * @param {* 生成多少个数组元素} num
  * @returns {* 数组}
  */
-export function parserFBLQ(num) {
+const parserFBLQ = function (num) {
   let n = Math.ceil(
     Math.log(num * Math.sqrt(5) + 1 / 2) /
     Math.log((Math.sqrt(5) + 1) / 2)
@@ -81,7 +81,7 @@ export function parserFBLQ(num) {
  * @param {* KEY名} key
  * @returns {* 数组}
  */
-export function parserKey(arr, key) {
+const parserKey = function (arr, key) {
   let map = {},
     dest = [];
   for (let i of arr) {
@@ -110,27 +110,11 @@ export function parserKey(arr, key) {
  * @param {* 几个为一组} _size
  * @returns {* 数组}
  */
-export function arrayForGroup(_array, _size) {
-  let b = [];
-  let result = [];
-  let k = 0;
-  for (var i = 0; i < _array.length; ++i) {
-    if (i % _size == 0) {
-      b = [];
-      for (var j = 0; j < _size; ++j) {
-        if (_array[i + j] == undefined) {
-          continue;
-        } else {
-          b[j] = _array[i + j];
-        }
-      }
-      result[k] = b;
-      k++;
-    }
-  }
-  return result
-}
+const chunk = (arr, size) =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) => arr.slice(i * size, i * size + size));
 
+const deepFlatten = arr => [].concat(...arr.map(v => Array.isArray(v) ? deepFlatten(v) : v));
+// deepFlatten([1,[2],[[3],4],5]) -> [1,2,3,4,5]
 /**
  *
  * @param {* 时间戳} date
@@ -159,7 +143,7 @@ const convertDate = function (date) {
  * @param {* 格式：yyyy-MM-dd hh:mm:ss} cFormat
  * @returns
  */
-export function parseTime(time, cFormat) {
+const parseTime = function (time, cFormat) {
   if (arguments.length === 0) {
     return null
   }
@@ -201,7 +185,7 @@ export function parseTime(time, cFormat) {
  * @param {*} option
  * @returns
  */
-export function formatTime(time, option) {
+const formatTime = function (time, option) {
   time = +time * 1000
   const d = new Date(time)
   const now = Date.now()
@@ -235,7 +219,7 @@ export function formatTime(time, option) {
   }
 }
 
-export function getQueryObject(url) {
+const getQueryObject = function (url) {
   url = url == null ? window.location.href : url
   const search = url.substring(url.lastIndexOf('?') + 1)
   const obj = {}
@@ -255,7 +239,7 @@ export function getQueryObject(url) {
  * @param {Sting} val input value
  * @returns {number} output value
  */
-export function getByteLen(val) {
+const getByteLen = function (val) {
   let len = 0
   for (let i = 0; i < val.length; i++) {
     if (val[i].match(/[^\x00-\xff]/gi) != null) {
@@ -267,7 +251,7 @@ export function getByteLen(val) {
   return Math.floor(len)
 }
 
-export function cleanArray(actual) {
+const cleanArray = function (actual) {
   const newArray = []
   for (let i = 0; i < actual.length; i++) {
     if (actual[i]) {
@@ -277,7 +261,7 @@ export function cleanArray(actual) {
   return newArray
 }
 
-export function param(json) {
+const param = function (json) {
   if (!json) return ''
   return cleanArray(
     Object.keys(json).map(key => {
@@ -287,7 +271,7 @@ export function param(json) {
   ).join('&')
 }
 
-export function param2Obj(url) {
+const param2Obj = function (url) {
   const search = url.split('?')[1]
   if (!search) {
     return {}
@@ -302,13 +286,13 @@ export function param2Obj(url) {
   )
 }
 
-export function html2Text(val) {
+const html2Text = function (val) {
   const div = document.createElement('div')
   div.innerHTML = val
   return div.textContent || div.innerText
 }
 
-export function objectMerge(target, source) {
+const objectMerge = function (target, source) {
   /* Merges two  objects,
      giving the last one precedence */
 
@@ -329,7 +313,7 @@ export function objectMerge(target, source) {
   return target
 }
 
-export function scrollTo(element, to, duration) {
+const scrollTo = function (element, to, duration) {
   if (duration <= 0) return
   const difference = to - element.scrollTop
   const perTick = (difference / duration) * 10
@@ -341,7 +325,7 @@ export function scrollTo(element, to, duration) {
 }
 
 //class切换
-export function toggleClass(element, className) {
+const toggleClass = function (element, className) {
   if (!element || !className) {
     return
   }
@@ -357,7 +341,7 @@ export function toggleClass(element, className) {
   element.className = classString
 }
 
-export const pickerOptions = [{
+const pickerOptions = [{
   text: '今天',
   onClick(picker) {
     const end = new Date()
@@ -396,7 +380,7 @@ export const pickerOptions = [{
 ]
 
 //过滤路由表，动态修改component
-export var filterRouter = (data, mapRouters) => {
+var filterRouter = (data, mapRouters) => {
   const map = {
     ...mapRouters
   }
@@ -425,7 +409,7 @@ var parser = (nodes, id, children, items = []) => {
   })
 }
 //根据nodeId 递归数据 找出对应的那一条数据
-export var getNode = (json, menuId, nodeId) => {
+var getNode = (json, menuId, nodeId) => {
   let node;
   for (let i = 0; i < json.length; i++) {
     if (node) {
@@ -452,7 +436,7 @@ export var getNode = (json, menuId, nodeId) => {
   return node
 }
 
-export function getTime(type) {
+function getTime(type) {
   if (type === 'start') {
     return new Date().getTime() - 3600 * 1000 * 24 * 90
   } else {
@@ -460,7 +444,7 @@ export function getTime(type) {
   }
 }
 
-export function debounce(func, wait, immediate) {
+function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
   const later = function () {
@@ -500,7 +484,7 @@ export function debounce(func, wait, immediate) {
  * Has a lot of edge cases bug
  * If you want to use a perfect deep copy, use lodash's _.cloneDeep
  */
-export function deepClone(source) {
+function deepClone(source) {
   if (!source && typeof source !== 'object') {
     throw new Error('error arguments', 'shallowClone')
   }
@@ -516,6 +500,6 @@ export function deepClone(source) {
 }
 
 //Set去重，然後转成数組 
-export function uniqueArr(arr) {
+function uniqueArr(arr) {
   return Array.from(new Set(arr))
 }

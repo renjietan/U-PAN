@@ -9,16 +9,12 @@
     <script src="./network.js"></script>
     <script src="./utils.js"></script>
     <script>
-        function produceYearList() {
-            let date = new Date(new Date().getTime()).getFullYear();
-            return Array.from({
-                length: 20
-            }).reduce((arr, val, i) => {
-                i < 11 ? arr.unshift(date - i) : arr.push(date + i - 10) + "年"
-                return arr
-            }, [])
+        const curry = (fn, arity = fn.length, ...args) => {
+            arity <= args.length ? fn(...args) : curry.bind(null, fn, arity, ...args);
         }
-        console.log(produceYearList());
+
+        document.write(curry(Math.pow)(2)(10));
+        document.write(curry(Math.min, 3)(10)(50)(2));
         // let res = dataRes.data.sort((a, b) => {
         //   return (
         //     new Date(b.operation_time).getTime() -
