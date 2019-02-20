@@ -6,49 +6,99 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="./network.js"></script>
+    <!-- <script src="./network.js"></script> -->
     <script src="./utils.js"></script>
     <script>
-        function produceYearList() {
-            let date = new Date(new Date().getTime()).getFullYear();
-            return Array.from({
-                length: 20
-            }).reduce((arr, val, i) => {
-                i < 11 ? arr.unshift(date - i) : arr.push(date + i - 10) + "年"
-                return arr
-            }, [])
+        // function produceYearList() {
+        //     let date = new Date(new Date().getTime()).getFullYear();
+        //     return Array.from({
+        //         length: 20
+        //     }).reduce((arr, val, i) => {
+        //         i < 11 ? arr.unshift(date - i) : arr.push(date + i - 10) + "年"
+        //         return arr
+        //     }, [])
+        // }
+        // console.log(produceYearList());
+
+        var dataRes = {
+            "flag": true,
+            "code": 0,
+            "msg": "success",
+            "data": {
+                "amount": 11152.55,
+                "drupList": [{
+                        "diId": 301234226,
+                        "amount": "8555.00",
+                        "billing_time": "2019-01-18",
+                        "drug_name": "药品名称1",
+                        "quantity": "566.00",
+                        "unit": "单位",
+                        "dealer_name": "经销商名称",
+                        "ownerId": null,
+                        "isInvalid": "0",
+                        "remarks": "备注"
+                    },
+                    {
+                        "diId": 1916302042,
+                        "amount": "255.55",
+                        "billing_time": "2019-03-18",
+                        "drug_name": "药品名称3",
+                        "quantity": "5663.00",
+                        "unit": "单位3",
+                        "dealer_name": "经销商名称3",
+                        "ownerId": null,
+                        "isInvalid": "0",
+                        "remarks": "备注3"
+                    },
+                    {
+                        "diId": 2147483647,
+                        "amount": "2342.00",
+                        "billing_time": "2019-01-19",
+                        "drug_name": "药品名称2",
+                        "quantity": "566.58",
+                        "unit": "单位",
+                        "dealer_name": "经销商名称",
+                        "ownerId": null,
+                        "isInvalid": "0",
+                        "remarks": "备注"
+                    }
+                ]
+            }
         }
-        console.log(produceYearList());
-        // let res = dataRes.data.sort((a, b) => {
-        //   return (
-        //     new Date(b.operation_time).getTime() -
-        //     new Date(a.operation_time).getTime()
-        //   );
-        // });
-        // let types = new Set();
-        // for (let item of res) {
-        //   // types.add(item.operation_time + "&&" + item.sname + "&&" + item.foId)
-        //   types.add(item.foId);
-        // }
-        // let obj = {};
-        // let arrList = [];
-        // // 根据type生成多个数组
-        // for (let type of types) {
-        //   for (let item of res) {
-        //     // if (item.operation_time == type.split("&&")[0] && item.sname == type.split("&&")[1] && item.foId == type.split("&&")[2]) {
-        //     if (item.foId == type) {
-        //       obj[type] = obj[type] || [];
-        //       obj[type].push(item);
-        //     }
-        //   }
-        // }
-        // arrList = Object.values(obj);
-        // // arrList.map(item => {
-        // //   let temp = {};
-        // //   item.forEach(item => {});
-        // // });
-        // console.log(obj);
-        // console.log(arrList);
+
+        function parserArray({ param = [], key = '' } = { param, key}) {
+            if(!param || !key) return false
+            let res = param.sort((a, b) => {
+                return (
+                    new Date(b[key]).getTime() -
+                    new Date(a[key]).getTime()
+                );
+            });
+            let types = new Set();
+            for (let item of res) {
+                types.add(item[key].substring(5, 7));
+            }
+            let obj = {};
+            let arrList = [];
+            // 根据type生成多个数组
+            for (let type of types) {
+                for (let item of res) {
+                    if (item[key].substring(5, 7) == type) {
+                        obj[type] = obj[type] || [];
+                        obj[type].push(item);
+                    }
+                }
+            }
+            // arrList = Object.values(obj);
+            // // arrList.map(item => {
+            // //   let temp = {};
+            // //   item.forEach(item => {});
+            // // });
+            return obj
+            // console.log(arrList);
+        }
+        dataRes.data.drupList = parserArray({ key:"billing_time", param: dataRes.data.drupList })
+        console.log('billing_time',dataRes);
     </script>
 </head>
 
