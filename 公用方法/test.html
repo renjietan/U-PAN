@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Page Title</title>
@@ -9,99 +8,141 @@
     <!-- <script src="./network.js"></script> -->
     <script src="./utils.js"></script>
     <script>
-        // function produceYearList() {
-        //     let date = new Date(new Date().getTime()).getFullYear();
-        //     return Array.from({
-        //         length: 20
-        //     }).reduce((arr, val, i) => {
-        //         i < 11 ? arr.unshift(date - i) : arr.push(date + i - 10) + "年"
-        //         return arr
-        //     }, [])
-        // }
-        // console.log(produceYearList());
+      // function produceYearList() {
+      //     let date = new Date(new Date().getTime()).getFullYear();
+      //     return Array.from({
+      //         length: 20
+      //     }).reduce((arr, val, i) => {
+      //         i < 11 ? arr.unshift(date - i) : arr.push(date + i - 10) + "年"
+      //         return arr
+      //     }, [])
+      // }
+      // console.log(produceYearList());
 
-        var dataRes = {
-            "flag": true,
-            "code": 0,
-            "msg": "success",
-            "data": {
-                "amount": 11152.55,
-                "drupList": [{
-                        "diId": 301234226,
-                        "amount": "8555.00",
-                        "billing_time": "2019-01-18",
-                        "drug_name": "药品名称1",
-                        "quantity": "566.00",
-                        "unit": "单位",
-                        "dealer_name": "经销商名称",
-                        "ownerId": null,
-                        "isInvalid": "0",
-                        "remarks": "备注"
-                    },
-                    {
-                        "diId": 1916302042,
-                        "amount": "255.55",
-                        "billing_time": "2019-03-18",
-                        "drug_name": "药品名称3",
-                        "quantity": "5663.00",
-                        "unit": "单位3",
-                        "dealer_name": "经销商名称3",
-                        "ownerId": null,
-                        "isInvalid": "0",
-                        "remarks": "备注3"
-                    },
-                    {
-                        "diId": 2147483647,
-                        "amount": "2342.00",
-                        "billing_time": "2019-01-19",
-                        "drug_name": "药品名称2",
-                        "quantity": "566.58",
-                        "unit": "单位",
-                        "dealer_name": "经销商名称",
-                        "ownerId": null,
-                        "isInvalid": "0",
-                        "remarks": "备注"
-                    }
-                ]
+      var dataRes = {
+        flag: true,
+        code: 0,
+        msg: "success",
+        data: {
+          amount: 11152.55,
+          drupList: [
+            {
+              diId: 301234226,
+              amount: "8555.00",
+              billing_time: "2019-01-18",
+              drug_name: "药品名称1",
+              quantity: "566.00",
+              unit: "单位",
+              dealer_name: "经销商名称",
+              ownerId: null,
+              isInvalid: "0",
+              remarks: "备注"
+            },
+            {
+              diId: 1916302042,
+              amount: "255.55",
+              billing_time: "2019-03-18",
+              drug_name: "药品名称3",
+              quantity: "5663.00",
+              unit: "单位3",
+              dealer_name: "经销商名称3",
+              ownerId: null,
+              isInvalid: "0",
+              remarks: "备注3"
+            },
+            {
+              diId: 2147483647,
+              amount: "2342.00",
+              billing_time: "2019-01-19",
+              drug_name: "药品名称2",
+              quantity: "566.58",
+              unit: "单位",
+              dealer_name: "经销商名称",
+              ownerId: null,
+              isInvalid: "0",
+              remarks: "备注"
             }
+          ]
         }
+      };
 
-        function parserArray({ param = [], key = '' } = { param, key}) {
-            if(!param || !key) return false
-            let res = param.sort((a, b) => {
-                return (
-                    new Date(b[key]).getTime() -
-                    new Date(a[key]).getTime()
-                );
-            });
-            let types = new Set();
-            for (let item of res) {
-                types.add(item[key].substring(5, 7));
-            }
-            let obj = {};
-            let arrList = [];
-            // 根据type生成多个数组
-            for (let type of types) {
-                for (let item of res) {
-                    if (item[key].substring(5, 7) == type) {
-                        obj[type] = obj[type] || [];
-                        obj[type].push(item);
-                    }
-                }
-            }
-            // arrList = Object.values(obj);
-            // // arrList.map(item => {
-            // //   let temp = {};
-            // //   item.forEach(item => {});
-            // // });
-            return obj
-            // console.log(arrList);
+      function parserArray({ param = [], key = "" } = { param, key }) {
+        if (!param || !key) return false;
+        let res = param.sort((a, b) => {
+          return new Date(b[key]).getTime() - new Date(a[key]).getTime();
+        });
+        let types = new Set();
+        for (let item of res) {
+          types.add(item[key].substring(5, 7));
         }
-        dataRes.data.drupList = parserArray({ key:"billing_time", param: dataRes.data.drupList })
-        console.log('billing_time',dataRes);
+        let obj = {};
+        let arrList = [];
+        // 根据type生成多个数组
+        for (let type of types) {
+          for (let item of res) {
+            if (item[key].substring(5, 7) == type) {
+              obj[type] = obj[type] || [];
+              obj[type].push(item);
+            }
+          }
+        }
+        // arrList = Object.values(obj);
+        // // arrList.map(item => {
+        // //   let temp = {};
+        // //   item.forEach(item => {});
+        // // });
+        return obj;
+        // console.log(arrList);
+      }
+      dataRes.data.drupList = parserArray({
+        key: "billing_time",
+        param: dataRes.data.drupList
+      });
+      console.log("billing_time", dataRes);
+      window.onload = function(params) {
+        var body = document.getElementsByTagName("body");
+        // body[0].addEventListener("click", function(e) {
+        //   var event = e.target || e.srcElement
+        //   if(e.target.nodeName.toLowerCase() == "button"){
+        //       var btns = document.getElementsByTagName("button")
+        //     for(var i=0; i < btns.length; i++){
+        //         if(btns[i].innerText == e.target.innerText){
+        //             alert(i)
+        //         }
+        //     }
+        //   }
+        // })
+        var btns = document.getElementsByTagName("button");
+        for (var i = 0, len = btns.length; i < len; i++) {
+          (function(i) {
+            btns[i].onclick = function() {
+              alert2(i);
+            };
+          })(i);
+        }
+      };
+      window.alert2 = function(msg) {
+        var div = document.createElement("div");
+        var alert = document.getElementById("alert2");
+        if (alert) {
+          alert.remove();
+        }
+        div.style.background = "red";
+        div.innerText = msg;
+        div.style.width = "300px";
+        div.style.height = "300px";
+        div.id = "alert2";
+        var body = document.getElementsByTagName("body")[0];
+        body.appendChild(div);
+      };
     </script>
-</head>
+  </head>
 
-<body></body>
-
+  <body>
+    <button class="button">1</button>
+    <button class="button">2</button>
+    <button class="button">3</button>
+    <button class="button">4</button>
+    <button class="button">5</button>
+  </body>
 </html>

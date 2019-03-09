@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test</title>
+    <style type="text/css">
+        .dialog {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            z-index: 30;
+            top: 50%;
+            left: 50%;
+            margin-top: -200px;
+            margin-left: -200px;
+            box-shadow: 2px 2px 4px #ccc;
+            background-color: #f1f1f1;
+            display: none;
+        }
+
+
+        .dialog .title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            padding: 4px;
+            background-color: #404040;
+        }
+
+        .dialog .close {
+            width: 20px;
+            height: 20px;
+            margin: 3px;
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <input type="button" value="Dialog Test" onclick="openDialog();" /> -->
+    <input type="button" value="Dialog Test" test="444" />
+    <div id="dlgTest" class="dialog">
+        <img class="close" alt="" src="images/close.png">
+        <div class="title">Dialog</div>
+        <div class="content"></div>
+    </div>
+    <script>
+        var proxy = new Proxy(new Array(), {
+            get: function (target, property) {
+                return 35;
+            }
+        });
+        Array.prototype.remove = function(params) {
+            return this.filter(item => item != params)
+        }
+        var arr = [1,2,3]
+        console.log(arr.remove("1"));
+        function EventTarget() {
+            this.handlers = {};
+        }
+
+        EventTarget.prototype = {
+            constructor: EventTarget,
+            addHandler: function (type, handler) {
+                if (typeof this.handlers[type] === "undefined") {
+                    this.handlers[type] = [];
+                }
+                this.handlers[type].push(handler);
+            },
+            fire: function (event) {
+                if (!event.target) {
+                    event.target = this;
+                }
+                if (this.handlers[event.type] instanceof Array) {
+                    const handlers = this.handlers[event.type];
+                    handlers.forEach((handler) => {
+                        handler(event);
+                    })
+                }
+            },
+            removeHandler: function (type, handler) {
+                if (this.handlers[type] instanceof Array) {
+                    const handlers = this.handlers[type];
+                    for (var i = 0, len = handlers.length; i < len; i++) {
+                        if (handlers[i] === handler) {
+                            break;
+                        }
+                    }
+                    handlers.splice(i, 1);
+                }
+            }
+        }
+
+        function handleMessage(event) {
+            console.log("message received:" + event.message);
+        }
+        //创建一个新对象
+        var target = new EventTarget();
+        //添加一个事件处理程序
+        target.addHandler("message", handleMessage);
+        //触发事件
+        target.fire({
+            type: "message",
+            message: "Hello World"
+        });
+        //删除事件处理程序
+        target.removeHandler("message", handleMessage);
+        //再次触发事件，应没有事件处理程序
+        target.fire({
+            type: "message",
+            message: "Hello World"
+        })
+    </script>
+    <!-- <script type="text/javascript">
+        function Dialog(id) {
+            this.id = id;
+            var that = this;
+            document.getElementById(id).children[0].onclick = function () {
+                that.close();
+            }
+        }
+        Dialog.prototype.show = function () {
+            var dlg = document.getElementById(this.id);
+            dlg.style.display = 'block';
+            dlg = null;
+        }
+        Dialog.prototype.close = function () {
+            var dlg = document.getElementById(this.id);
+            dlg.style.display = 'none';
+            dlg = null;
+        }
+    </script>
+    <script type="text/javascript">
+        function openDialog() {
+            var dlg = new Dialog('dlgTest');
+            dlg.show();
+        }
+    </script> -->
+</body>
+<html>
